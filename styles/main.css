@@ -1,0 +1,41 @@
+.myheaders{
+    text-align: center;
+    color: #FE4F2D;
+}
+.background{
+    background-color:#FDFBEE;
+}
+.navbar {
+    width: 100%;
+    background-color: #015551;
+    overflow: hidden;
+    color: #FDFBEE;
+    justify-content: center;
+}
+.navbar a {
+    color: #FDFBEE;
+    text-align: center;
+    padding: 10px 80px;
+    font-size: 1.3em;
+    text-decoration: none;
+}
+.navbar a:hover {
+    background-color: #57B4BA;
+    color: #015551;
+}
+.myfooter{
+    background-color: #57B4BA;
+    color: #FDFBEE;
+}
+.code-container {
+    padding: 20px;
+    background-color: #FDFBEE;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    overflow-x: auto;
+}
+.description {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    color: #333;
+}
