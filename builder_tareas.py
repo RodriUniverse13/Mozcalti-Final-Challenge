@@ -1,73 +1,48 @@
 class Asignacion:
     def __init__(self):
-        self.archivos_permitidos = []
+        self.archivos = []
         self.descripcion = ""
         self.nombre = ""
         self.questions = []
+        self.fecha_entrega = ""
     
-    def agregar_archivo_permitido(self, archivo):
-        self.archivos_permitidos.append(archivo)
-    
+    def agregar_archivo(self, archivo):
+        self.archivos.append(archivo)
 
 class Creador:
     def __init__(self):
         self.asignacion = Asignacion()
-        
-    def per_pdf(self):
-        self.asignacion.agregar_archivo_permitido("PDF")
-        return self
-        
-    def per_pptx(self):
-        self.asignacion.agregar_archivo_permitido("PPTX")
-        return self
-        
-    def per_xls(self):
-        self.asignacion.agregar_archivo_permitido("XLS")
-        return self
     
-    def per_docx(self):
-        self.asignacion.agregar_archivo_permitido("DOCX")
-        return self
-    
-    def per_jpg(self):
-        self.asignacion.agregar_archivo_permitido("JPG")
-        return self
-    
-    def per_zip(self):
-        self.asignacion.agregar_archivo_permitido("ZIP")
-        return self
-    
-    def add_desc(self, desc):
+    def agregar_desc(self, desc):
         self.asignacion.descripcion = desc
         return self
     
-    def add_name(self, name):
-        self.asignacion.nombre = name
+    def agregar_nombre(self, nombre):
+        self.asignacion.nombre = nombre
         return self
     
-    def per_form(self):
-        self.asignacion.agregar_archivo_permitido("FORM")
-        return self
-        
-    def add_question(self, question):
-        self.asignacion.questions.append(question)
+    def agregar_pregunta(self, pregunta):
+        self.asignacion.questions.append(pregunta)
         return self
     
+    def asignar_fecha_entrega(self, fecha):
+        self.asignacion.fecha_entrega = fecha
+        return self
+    
+    def agregar_archivo(self, archivo):
+        self.asignacion.archivos.append(archivo)
+        return self
+
 class Asignador:
     def __init__(self, creador):
         self.creador = creador
         
-    def asignar_tarea(self,name,desc):
-        return self.creador.per_pdf().per_jpg().per_docx().per_xls().per_pptx().add_desc(desc).add_name(name)
+    def asignar_tarea(self, nombre, desc):
+        return self.creador.agregar_nombre(nombre).agregar_desc(desc)
+        
+    def asignar_examen(self, nombre, desc, fecha):
+        return self.creador.agregar_nombre(nombre).agregar_desc(desc).asignar_fecha_entrega(fecha)
 
-    def asignar_examen(self,name,desc):
-        return self.creador.per_pdf().per_jpg().per_docx().per_form().add_desc(desc).add_name(name)
-    
-    def asignar_proyecto(self,name,desc):
-        return self.creador.per_pdf().per_jpg().per_zip().add_desc(desc).add_name(name)
+    def asignar_proyecto(self, nombre, desc, fecha):
+        return self.creador.agregar_nombre(nombre).agregar_desc(desc).asignar_fecha_entrega(fecha)
 
-
-if __name__ == "__main__":
-    creadortareas = Creador()
-    asignador = Asignador(creadortareas)
-    tarea = asignador.asignar_tarea()
