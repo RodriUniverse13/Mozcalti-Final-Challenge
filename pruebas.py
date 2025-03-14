@@ -1,5 +1,6 @@
 import pytest
 from main import ConexionServer, Publicador, SuscriptorAlumno, SuscriptorProfesor
+from builder_tareas import Asignacion, Creador, Asignador
 
 
 class TestConexionUnicaAlServidor:
@@ -55,6 +56,59 @@ class TestPublicador:
         mock_profesor1.assert_called_once_with(eventos)
         mock_profesor2.assert_called_once_with(eventos)
 
-class TestCreacionAsignaciones:
-    def test_creacion_asignaciones
+class TestCreacionTareas:
+    def setup_method(self):
+        self.creador = Creador()
+        self.asignador = Asignador(self.creador)
+
+    def test_asignar_tarea(self):
+        nombre = "Tarea 1"
+        descripcion = "Descripción de la tarea 1"
+        asignacion = self.asignador.asignar_tarea(nombre, descripcion).asignacion
+
+        assert asignacion.nombre == nombre, "El nombre de la asignación no es correcto"
+        assert asignacion.descripcion == descripcion, "La descripción de la asignación no es correcta"
+        assert asignacion.fecha_entrega == "", "La fecha de entrega debería estar vacía"
+        assert asignacion.archivos == [], "La lista de archivos debería estar vacía"
+        assert asignacion.questions == [], "La lista de preguntas debería estar vacía"
+
+    def test_asignar_examen(self):
+        nombre = "Examen 1"
+        descripcion = "Descripción del examen 1"
+        fecha_entrega = "2025-03-20"
+        asignacion = self.asignador.asignar_examen(nombre, descripcion, fecha_entrega).asignacion
+
+        assert asignacion.nombre == nombre, "El nombre de la asignación no es correcto"
+        assert asignacion.descripcion == descripcion, "La descripción de la asignación no es correcta"
+        assert asignacion.fecha_entrega == fecha_entrega, "La fecha de entrega no es correcta"
+        assert asignacion.archivos == [], "La lista de archivos debería estar vacía"
+        assert asignacion.questions == [], "La lista de preguntas debería estar vacía"
+
+    def test_asignar_proyecto(self):
+        nombre = "Proyecto 1"
+        descripcion = "Descripción del proyecto 1"
+        fecha_entrega = "2025-04-01"
+        asignacion = self.asignador.asignar_proyecto(nombre, descripcion, fecha_entrega).asignacion
+
+        assert asignacion.nombre == nombre, "El nombre de la asignación no es correcto"
+        assert asignacion.descripcion == descripcion, "La descripción de la asignación no es correcta"
+        assert asignacion.fecha_entrega == fecha_entrega, "La fecha de entrega no es correcta"
+        assert asignacion.archivos == [], "La lista de archivos debería estar vacía"
+        assert asignacion.questions == [], "La lista de preguntas debería estar vacía"
+
+    def test_agregar_archivo(self):
+        nombre = "Tarea con archivo"
+        descripcion = "Descripción de la tarea con archivo"
+        archivo = "archivo1.txt"
+        asignacion = self.asignador.asignar_tarea(nombre, descripcion).agregar_archivo(archivo).asignacion
+
+        assert asignacion.archivos == [archivo], "El archivo no se agregó correctamente"
+
+    def test_agregar_pregunta(self):
+        nombre = "Tarea con pregunta"
+        descripcion = "Descripción de la tarea con pregunta"
+        pregunta = "¿Cuál es la capital de Francia?"
+        asignacion = self.asignador.asignar_tarea(nombre, descripcion).agregar_pregunta(pregunta).asignacion
+
+        assert asignacion.questions == [pregunta], "La pregunta no se agregó correctamente"
 
