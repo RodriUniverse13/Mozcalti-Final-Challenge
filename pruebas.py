@@ -1,10 +1,12 @@
 import pytest
+import allure
 from main import ConexionServer, Publicador, SuscriptorAlumno, SuscriptorProfesor
 from builder_tareas import Asignacion, Creador, Asignador
 from strategy_mostrarasig import Estrategia, EstrategiaVerExamen, EstrategiaVerProyecto, EstrategiaVerTarea, Manager
 
-
+@allure.feature('Conexion al Servidor')
 class TestConexionUnicaAlServidor:
+    @allure.story('Prueba de Singleton')
     def test_conexion_unica_al_servidor(self):
         """Prueba el patron de diseño Singleton, verifica que solo exista
         una instancia de conexion al servidor, si no muestra un mensaje de error"""
@@ -12,6 +14,7 @@ class TestConexionUnicaAlServidor:
         db2 = ConexionServer()
         assert db1 is db2, "Existe mas de una instancia de conexion a el servidor"
 
+@allure.feature('Publicador')
 class TestPublicador:
     def __init__(self):
         publicador = Publicador()
@@ -21,6 +24,7 @@ class TestPublicador:
         profesor2 = SuscriptorProfesor()
         #Se crearon todos los suscriptores y se instancia un publicador
 
+    @allure.story('Suscribir Suscriptores')
     def test_suscribir(self):
         """Prueba que se agreguen los suscriptores a la lista de suscriptores"""
         self.suscribir(self.alumno1)
@@ -30,6 +34,7 @@ class TestPublicador:
         #Se suscriben los suscriptores al publicador
         assert self.publicador.suscriptores == [self.alumno1, self.alumno2, self.profesor1, self.profesor2], "No se agregaron todos los suscriptores"
 
+    @allure.story('Desuscribir Suscriptores')
     def test_desuscribir(self):
         if(self.publicador.suscriptores == []): #Si no existen los suscriptores se añaden
             self.suscribir(self.alumno1)
@@ -42,6 +47,7 @@ class TestPublicador:
         self.desuscribir(self.profesor2)
         assert self.publicador.suscriptores == [], "No se eliminaron todos los suscriptores"       #assert si se eliminaron
 
+    @allure.story('Notificar Suscriptores')
     def test_notificar_suscriptores(self, mocker):
         """Prueba que se puedan notificar los eventos a todos los suscriptores"""
         mock_alumno1 = mocker.patch.object(self.alumno1, 'notificar')
@@ -60,12 +66,14 @@ class TestPublicador:
         mock_profesor2.assert_called_once_with(eventos)
         #se hacen asserts para comprobar que los metodos notificar de los suscriptores fueron llamados
 
+@allure.feature('Creacion de Tareas')
 class TestCreacionTareas:
     def setup_method(self):
         self.creador = Creador()
         self.asignador = Asignador(self.creador)
         #Se instancian las clases creador y asignador, necesarias para el builder
 
+    @allure.story('Asignar Tarea')
     def test_asignar_tarea(self):
         nombre = "Tarea 1"
         descripcion = "Descripción de la tarea 1"
@@ -79,6 +87,7 @@ class TestCreacionTareas:
         assert asignacion.questions == [], "La lista de preguntas debería estar vacía"
         #se hacen pruebas para checar que los atributos de la tearea sean correctos
 
+    @allure.story('Asignar Examen')
     def test_asignar_examen(self):
         nombre = "Examen 1"
         descripcion = "Descripción del examen 1"
@@ -93,6 +102,7 @@ class TestCreacionTareas:
         assert asignacion.questions == [], "La lista de preguntas debería estar vacía"
         #se comprueba que los valores de las propiedades de la asignacion sean los asignados
 
+    @allure.story('Asignar Proyecto')
     def test_asignar_proyecto(self):
         nombre = "Proyecto 1"
         descripcion = "Descripción del proyecto 1"
@@ -107,6 +117,7 @@ class TestCreacionTareas:
         assert asignacion.questions == [], "La lista de preguntas debería estar vacía"
         #se comprueba que los valores de las propiedades de la asignacion sean los asignados
 
+    @allure.story('Agregar Archivo')
     def test_agregar_archivo(self):
         nombre = "Tarea con archivo"
         descripcion = "Descripción de la tarea con archivo"
@@ -117,6 +128,7 @@ class TestCreacionTareas:
         assert asignacion.archivos == [archivo], "El archivo no se agregó correctamente"
         #se comprueba que la asignacion contenga el archivo que se agrego
 
+    @allure.story('Agregar Pregunta')
     def test_agregar_pregunta(self):
         nombre = "Tarea con pregunta"
         descripcion = "Descripción de la tarea con pregunta"
@@ -127,6 +139,7 @@ class TestCreacionTareas:
         assert asignacion.questions == [pregunta], "La pregunta no se agregó correctamente"
         #se comprueba que la asignacion contenga la pregunta que se agrego
 
+@allure.feature('Mostrar Asignaciones')
 class TestMostrarAsignaciones:
     def setup_method(self):
         """
@@ -151,6 +164,7 @@ class TestMostrarAsignaciones:
         self.asignacion_proyecto.fecha_entrega = "2025-04-01"
         self.asignacion_proyecto.archivos = ["archivo1.txt", "archivo2.txt"]
 
+    @allure.story('Mostrar Tarea')
     def test_estrategia_ver_tarea(self):
         #Se prueba la estrategia de mostrar tarea, y tambien mostrar sus archivos.
         estrategia = EstrategiaVerTarea(self.asignacion_tarea)
@@ -158,6 +172,7 @@ class TestMostrarAsignaciones:
         assert manager.mostrar() == "El nombre de la tarea es: Tarea 1 y su descripcion es: Descripción de la tarea 1"
         assert estrategia.ver_archivos() == "Los archivos de la tarea son: ['archivo1.txt', 'archivo2.txt']"
 
+    @allure.story('Mostrar Examen')
     def test_estrategia_ver_examen(self):
         #Se prueba la estrategia de mostrar examen y sus preguntas
         estrategia = EstrategiaVerExamen(self.asignacion_examen)
@@ -165,6 +180,7 @@ class TestMostrarAsignaciones:
         assert manager.mostrar() == "El examen es: Examen 1, descripcion: Descripción del examen 1, fecha: 2025-03-20"
         assert estrategia.mostrar_preguntas() == "Las preguntas son: ['Pregunta 1', 'Pregunta 2']"
 
+    @allure.story('Mostrar Proyecto')
     def test_estrategia_ver_proyecto(self):
         #Se prueba la estrategia de mostrar proyecto y sus archivos
         estrategia = EstrategiaVerProyecto(self.asignacion_proyecto)
