@@ -8,6 +8,30 @@ class ConexionServer:
             cls._instancia = super(ConexionServer, cls).__new__(cls) #Si no existe crea una conexion
             print("Conexion a servidor exitosa!")
         return cls._instancia
+    
+class Suscriptor(ABC):
+    """
+    Clase abstracta base para los suscriptores en el patrón observer
+    """
+    def notificar(self):
+        pass
+
+class SuscriptorAlumno(Suscriptor):
+    """
+    Clase que representa un suscriptor de tipo Alumno.
+    Hereda de la clase abstracta Suscriptor.
+    """
+    def notificar(self, eventos):
+        print(f'Notificación para Alumno: {eventos}')
+
+
+class SuscriptorProfesor(Suscriptor):
+    """
+    Clase que representa un suscriptor de tipo Profesor.
+    Hereda de la clase abstracta Suscriptor.
+    """
+    def notificar(self, eventos):
+        print(f'Notificación para Profesor: {eventos}')
 
 class Publicador:
     """
@@ -49,29 +73,3 @@ class Publicador:
         """
         for suscriptor in self.suscriptores:
             suscriptor.notificar(eventos)
-
-class Suscriptor(ABC):
-    """
-    Clase abstracta base para los suscriptores en el patrón observer
-    """
-    def notificar(self):
-        pass
-
-class SuscriptorAlumno(Suscriptor):
-    """
-    Clase que representa un suscriptor de tipo Alumno.
-    Hereda de la clase abstracta Suscriptor.
-    """
-    def notificar(self, eventos):
-        print(f'Notificación para Alumno: {eventos}')
-
-
-class SuscriptorProfesor(Suscriptor):
-    """
-    Clase que representa un suscriptor de tipo Profesor.
-    Hereda de la clase abstracta Suscriptor.
-    """
-    def notificar(self, eventos):
-        print(f'Notificación para Profesor: {eventos}')
-
-
