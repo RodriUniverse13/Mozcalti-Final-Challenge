@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación - Justificación</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/showcode.css">
+</head>
+<body class="background">
+    <main>
+        <h1 class="myheaders" style="margin-top: 20px;">Documentación y Justificación</h1>
+        <h2 class="myheaders">De nuestro Trabajo en Equipo con GIT</h2>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        <div class="navbar">
+            <a href="/templates/index.html">Inicio</a>
+            <a href="/templates/singleton.html">Singleton</a>
+            <a href="/templates/builder.html">Builder</a>
+            <a href="/templates/strategy.html">Strategy</a>
+            <a href="/templates/observer.html">Observer</a>
+        </div>
+        
+        <h3>Uso y Justificación de Strategy</h3>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="description" id="description">
+                        <h4>Patrón Strategy: Implementación para la gestión de actividades</h4>
+                        <p>El patrón de diseño <strong>Strategy</strong> es una solución ampliamente utilizada en el desarrollo de software para permitir la selección dinámica de comportamientos en tiempo de ejecución. 
+                            Este patrón resulta especialmente útil cuando se requiere implementar múltiples variantes de un algoritmo o funcionalidad, manteniendo un diseño flexible y extensible.</p>
+                        <p>En este caso, el patrón <strong>Strategy</strong> se utiliza para gestionar diferentes tipos de actividades académicas, como exámenes, tareas y proyectos. 
+                            Cada tipo de actividad tiene características y comportamientos específicos que se encapsulan en estrategias concretas, permitiendo que el sistema pueda adaptarse fácilmente a nuevos requisitos o tipos de actividades en el futuro.</p>
+                        <p>Además, este patrón complementa el uso del patrón <strong>Builder</strong>, que se encarga de construir las asignaciones con sus respectivos atributos, como archivos adjuntos, formularios o preguntas. 
+                            Una vez creada la asignación, el patrón <strong>Strategy</strong> permite interpretar y presentar la información de manera adecuada según el tipo de actividad, asegurando una experiencia de usuario coherente y eficiente.</p>
+                        <p>En resumen, el uso del patrón <strong>Strategy</strong> en este contexto no solo mejora la organización y mantenibilidad del código, sino que también facilita la escalabilidad del sistema al permitir la incorporación de nuevos tipos de actividades sin afectar el funcionamiento existente.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="code-container">
+                        <div class="tab-content">
+                            <pre><code>from abc import ABC, abstractmethod
+                            
+class Estrategia(ABC):
+    def __init__(self, asignacion):
+        self.asignacion = asignacion
+
+    @abstractmethod
+    def mostrar(self):
+        pass
+
+class EstrategiaVerTarea(Estrategia):
+    def __init__(self, asignacion):
+        super().__init__(asignacion)
+
+    def mostrar(self):
+        return f"El nombre de la tarea es: {self.asignacion.nombre} y su descripcion es: {self.asignacion.descripcion}"
+    
+    def ver_archivos(self):
+        return f"Los archivos de la tarea son: {self.asignacion.archivos}"
+
+class EstrategiaVerExamen(Estrategia):
+    def __init__(self, asignacion):
+        super().__init__(asignacion)
+        self.asignacion.questions = self.asignacion.questions or []
+
+    def mostrar(self):
+        return f"El examen es: {self.asignacion.nombre}, descripcion: {self.asignacion.descripcion}, fecha: {self.asignacion.fecha_entrega}"
+    
+    def mostrar_preguntas(self):
+        return f"Las preguntas son: {self.asignacion.questions}"
+
+class EstrategiaVerProyecto(Estrategia):
+    def __init__(self, asignacion):
+        super().__init__(asignacion)
+
+    def mostrar(self):
+        return f"El proyecto es: {self.asignacion.nombre}, descripcion: {self.asignacion.descripcion}, fecha: {self.asignacion.fecha_entrega}"
+        
+    def mostrar_archivos(self):
+        return f"Los archivos son: {self.asignacion.archivos}"
+
+class Manager:
+    def __init__(self, estrategia):
+        self.estrategia = estrategia
+        
+    def set_estrategia(self, estrategia):
+        self.estrategia = estrategia
+        
+    def mostrar(self):
+        return self.estrategia.mostrar()</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="myfooter text-center text-lg-start">
+            <div class="container p-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="text-uppercase">Este proyecto fue desarrollado por:</h5>
+                        <p>• Andrés García González</p>
+                        <p>• Ángel Alejandro Reynoso Delgado</p>
+                        <p>• Rodrigo Rivera Iñiguez</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="text-uppercase">Bootcamp Python Developer</h5>
+                        <p>Trabajo en Equipo con GIT</p>
+                        <p>Documentación y Justificación</p>
+                        <p>14 Marzo 2025</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>

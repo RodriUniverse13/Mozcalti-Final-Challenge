@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación - Justificación</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/showcode.css">
+</head>
+<body class="background">
+    <main>
+        <h1 class="myheaders" style="margin-top: 20px;">Documentación y Justificación</h1>
+        <h2 class="myheaders">De nuestro Trabajo en Equipo con GIT</h2>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+        <div class="navbar">
+            <a href="/templates/index.html">Inicio</a>
+            <a href="/templates/singleton.html">Singleton</a>
+            <a href="/templates/builder.html">Builder</a>
+            <a href="/templates/strategy.html">Strategy</a>
+            <a href="/templates/observer.html">Observer</a>
+        </div>
+        
+        <h3>Uso y Justificación de Observer</h3>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="description" id="description">
+                        <h4>Patrón Observer: Gestión de notificaciones en tiempo real</h4>
+                        <p>El patrón de diseño <strong>Observer</strong> es una solución ampliamente utilizada en sistemas donde es necesario mantener la sincronización entre múltiples objetos, permitiendo que los cambios en un objeto se reflejen automáticamente en otros relacionados. 
+                            Este patrón es ideal para implementar sistemas de notificaciones en tiempo real, asegurando que los suscriptores reciban actualizaciones de manera eficiente y estructurada.</p>
+                        <p>En este caso, el patrón <strong>Observer</strong> se utiliza para gestionar notificaciones relacionadas con actividades académicas. Por ejemplo, un alumno puede ser notificado cuando se le asigna una nueva tarea, o un profesor puede recibir una notificación cuando un alumno entrega una actividad. 
+                            Este enfoque garantiza que todos los usuarios relevantes estén informados de los eventos importantes en el sistema.</p>
+                        <p>El patrón se implementa mediante las siguientes clases principales:</p>
+                        <ul>
+                            <li><strong>Publicador:</strong> Responsable de gestionar la lista de suscriptores y notificarles cuando ocurre un evento.</li>
+                            <li><strong>Suscriptor:</strong> Clase base abstracta que define la interfaz para los suscriptores.</li>
+                            <li><strong>SuscriptorAlumno:</strong> Implementación concreta de un suscriptor que representa a un alumno.</li>
+                            <li><strong>SuscriptorProfesor:</strong> Implementación concreta de un suscriptor que representa a un profesor.</li>
+                        </ul>
+                        <p>El uso del patrón <strong>Observer</strong> en este contexto mejora la modularidad y escalabilidad del sistema, permitiendo agregar nuevos tipos de suscriptores o eventos sin afectar el código existente. 
+                            Además, fomenta un diseño desacoplado, ya que los publicadores no necesitan conocer los detalles específicos de los suscriptores, lo que facilita el mantenimiento y la evolución del sistema.</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="code-container">
+                        <div class="tab-content">
+                            <pre><code>class Publicador:
+    """
+    Clase que representa un publicador de eventos, que puede tener múltiples suscriptores.
+    Esta clase permite agregar y eliminar suscriptores, así como publicar eventos a los suscriptores.
+
+    Atributos:
+    ---------
+        suscriptores (list): Lista de suscriptores que recibirán los eventos.
+    """
+
+    def __init__(self):
+        self.suscriptores = []
+
+    def suscribir(self, suscriptor) -> None:
+        """
+        Agrega un suscriptor a la lista de suscriptores.
+        Args:
+            suscriptor (Suscriptor): El suscriptor a agregar.
+        """
+        self.suscriptores.append(suscriptor)
+        print(f'Suscriptor {suscriptor} agregado.')
+
+    def desuscribir(self, suscriptor) -> None:
+        """
+        Elimina un suscriptor de la lista de suscriptores.
+        Args:
+            suscriptor (Suscriptor): El suscriptor a eliminar.
+        """
+        self.suscriptores.remove(suscriptor)
+        print(f'Suscriptor {suscriptor} eliminado.')
+
+    def notificarSuscriptores(self, eventos : list = []):
+        """
+        Publica los eventos a todos los suscriptores.
+        Recorre la lista de suscriptores y llama al método notificar de cada uno, pasando los eventos.
+        Args:
+            eventos (list): Lista de eventos a publicar.
+        """
+        for suscriptor in self.suscriptores:
+            suscriptor.notificar(eventos)</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="myfooter text-center text-lg-start">
+            <div class="container p-4">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="text-uppercase">Este proyecto fue desarrollado por:</h5>
+                        <p>• Andrés García González</p>
+                        <p>• Ángel Alejandro Reynoso Delgado</p>
+                        <p>• Rodrigo Rivera Iñiguez</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="text-uppercase">Bootcamp Python Developer</h5>
+                        <p>Trabajo en Equipo con GIT</p>
+                        <p>Documentación y Justificación</p>
+                        <p>14 Marzo 2025</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </main>
+</body>
+</html>
