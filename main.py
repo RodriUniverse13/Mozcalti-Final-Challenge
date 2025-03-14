@@ -1,6 +1,15 @@
 from abc import ABC, abstractmethod
 
 class ConexionServer:
+    """Clase que representa una conexión a un servidor, implementando el patrón Singleton.
+    Esta clase asegura que solo haya una instancia de la conexión al servidor en todo momento.
+    
+    Atributos:
+    ---------
+        _instancia (ConexionServer): 
+            Instancia única de la conexión al servidor.
+    """
+    
     _instancia = None  #Instancia unica de la conexion al servidor 
 
     def __new__(cls, *args, **kwargs):
