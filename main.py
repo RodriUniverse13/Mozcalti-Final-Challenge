@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
 
+from builder_tareas import Creador, Asignador
+from strategy_mostrarasig import Manager, EstrategiaVerTarea, EstrategiaVerExamen, EstrategiaVerProyecto
+
 class ConexionServer:
     """Clase que representa una conexión a un servidor, implementando el patrón Singleton.
     Esta clase asegura que solo haya una instancia de la conexión al servidor en todo momento.
@@ -22,6 +25,7 @@ class Suscriptor(ABC):
     """
     Clase abstracta base para los suscriptores en el patrón observer
     """
+    @abstractmethod
     def notificar(self):
         pass
 
@@ -82,3 +86,59 @@ class Publicador:
         """
         for suscriptor in self.suscriptores:
             suscriptor.notificar(eventos)
+
+#Funciones solo para uso del main
+def crear_asignacion():
+    creador = Creador()
+    asignador = Asignador(creador)
+    
+    print("Seleccione el tipo de asignación a crear:")
+    print("1. Tarea")
+    print("2. Examen")
+    print("3. Proyecto")
+    opcion = input("Ingrese el número de la opción: ")
+
+    nombre = input("Ingrese el nombre de la asignación: ")
+    descripcion = input("Ingrese la descripción de la asignación: ")
+
+    if opcion == "1":
+        tarea = asignador.asignar_tarea(nombre, descripcion).asignacion
+        return tarea, EstrategiaVerTarea(tarea)
+    elif opcion == "2":
+        fecha_entrega = input("Ingrese la fecha de entrega del examen (YYYY-MM-DD): ")
+        examen = asignador.asignar_examen(nombre, descripcion, fecha_entrega).asignacion
+        return examen, EstrategiaVerExamen(examen)
+    elif opcion == "3":
+        fecha_entrega = input("Ingrese la fecha de entrega del proyecto (YYYY-MM-DD): ")
+        proyecto = asignador.asignar_proyecto(nombre, descripcion, fecha_entrega).asignacion
+        return proyecto, EstrategiaVerProyecto(proyecto)
+    else:
+        print("Opción no válida.")
+        return None, None
+
+def main():
+    publicador = Publicador()
+    suscriptor_alumno = SuscriptorAlumno()
+    suscriptor_profesor = SuscriptorProfesor()
+    publicador.suscribir(suscriptor_alumno)
+    publicador.suscribir(suscriptor_profesor)
+
+    while True:
+        print("\nMenú:")
+        print("1. Crear asignación")
+        print("2. Salir")
+        opcion = input("Ingrese el número de la opción: ")
+
+        if opcion == "1":
+            asignacion, estrategia = crear_asignacion()
+            if asignacion and estrategia:
+                publicador.notificarSuscriptores([f"Nueva asignación creada: {asignacion.nombre}"])
+                manager = Manager(estrategia)
+                print(manager.mostrar())
+        elif opcion == "2":
+            break
+        else:
+            print("Opción no válida.")
+
+if __name__ == '__main__':
+    main()
