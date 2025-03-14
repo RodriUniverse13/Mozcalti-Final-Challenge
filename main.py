@@ -17,7 +17,6 @@ class Publicador:
     Atributos:
     ---------
         suscriptores (list): Lista de suscriptores que recibirán los eventos.
-        eventos (list): Lista de eventos que se han publicado.
     """
     
     def __init__(self):
@@ -41,7 +40,7 @@ class Publicador:
         self.suscriptores.remove(suscriptor)
         print(f'Suscriptor {suscriptor} eliminado.')
     
-    def notificarSuscriptores(self, eventos : list[str] | str = []):
+    def notificarSuscriptores(self, eventos : list = []):
         """
         Publica los eventos a todos los suscriptores.
         Recorre la lista de suscriptores y llama al método notificar de cada uno, pasando los eventos.
@@ -50,7 +49,6 @@ class Publicador:
         """
         for suscriptor in self.suscriptores:
             suscriptor.notificar(eventos)
-
 
 class Suscriptor(ABC):
     """
